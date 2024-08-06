@@ -51,7 +51,7 @@ async function createGame(request: Request, response: Response, next: NextFuncti
 
   try {
     const result = await pool.query(
-      'INSERT INTO game (title, url, image) VALUES ($1, $2, $3) RETURNING *',
+      'INSERT INTO games (title, url, image) VALUES ($1, $2, $3) RETURNING *',
       [game.title, game.url, game.image]
     );
     response.status(201).json(result.rows[0]);
@@ -66,7 +66,7 @@ async function deleteGame(request: Request, response: Response, next: NextFuncti
 
 
   try {
-    const result = await pool.query('DELETE FROM game WHERE id = $1 RETURNING *', [gameID]);
+    const result = await pool.query('DELETE FROM games WHERE id = $1 RETURNING *', [gameID]);
 
 
     if (result.rowCount && result.rowCount> 0) {
@@ -84,14 +84,14 @@ async function getGame(request: Request, response: Response, next: NextFunction)
   const gameID = parseInt(request.params.gameID);
 
 
-  pool.query('SELECT * FROM game WHERE id = $1;', [gameID]).then(
+  pool.query('SELECT * FROM games WHERE id = $1;', [gameID]).then(
     query => response.status(200).json(query.rows[0])
   )
 }
 
 
 async function getGames(request: Request, response: Response, next: NextFunction) {
-  pool.query('SELECT * FROM game;', []).then(
+  pool.query('SELECT * FROM games;', []).then(
     query => response.status(200).json(query.rows)
   )
 }
@@ -104,7 +104,7 @@ async function updateGame(request: Request, response: Response, next: NextFuncti
 
   try {
     const result = await pool.query(
-      'UPDATE game SET title = $1, url = $2, image = $3 WHERE id = $4 RETURNING *',
+      'UPDATE games SET title = $1, url = $2, image = $3 WHERE id = $4 RETURNING *',
       [game.title, game.url, game.image, gameID]
     );
 
@@ -123,8 +123,8 @@ async function updateGame(request: Request, response: Response, next: NextFuncti
 const pool = new Pool.Pool({
   user: "postgres",
   host: "localhost",
-  database: "games",
-  password: "jacobkartorium",
+  database: "gamedb",
+  password: "abc123",
   port: 5432
 })
 

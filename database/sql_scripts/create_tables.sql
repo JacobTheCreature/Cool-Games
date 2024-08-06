@@ -1,0 +1,1 @@
+\i 'sql_scripts/tables/games.sql'

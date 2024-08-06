@@ -1,0 +1,10 @@
+DROP TABLE IF EXISTS games CASCADE;
+
+CREATE TABLE IF NOT EXISTS games
+(
+    id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MAXVALUE 2147483647 CACHE 1 ),
+    title text,
+    url text,
+    image text,
+    CONSTRAINT games_pkey PRIMARY KEY (id)
+);
