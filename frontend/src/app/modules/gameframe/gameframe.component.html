@@ -1,0 +1,10 @@
+<div class="game-frame" *ngIf="gameService.selectedGame">
+    <h2>{{ gameService.selectedGame.title }}</h2>
+    <nav class="game-window row" *ngIf="gameService.safeSelectedGameUrl; else badUrl">
+      <iframe [src]="gameService.safeSelectedGameUrl" frameborder="0"></iframe>
+    </nav>
+  </div>
+  
+  <ng-template #badUrl class="game-frame">
+    <h1>Invalid URL. Delete game and try again.</h1>
+  </ng-template>

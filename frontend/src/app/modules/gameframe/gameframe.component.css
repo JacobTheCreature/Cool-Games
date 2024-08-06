@@ -1,0 +1,23 @@
+.game-frame {
+    position: absolute;
+    padding: 20px;
+    text-align: center;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction:column;
+    color: white;
+    justify-content: center;
+  }
+  
+  .game-window {
+    margin-top: 15px;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+  }
+  
+  .gap-05 {
+    gap: 0.5rem
+  }
