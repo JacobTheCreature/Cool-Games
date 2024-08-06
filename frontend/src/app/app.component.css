@@ -1,0 +1,7 @@
+.wrapper {
+    height: auto;
+    padding: 20px;
+
+    flex-grow: 1;
+    box-sizing: border-box;
+}
