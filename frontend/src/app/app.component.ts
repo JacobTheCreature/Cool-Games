@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { HeaderComponent } from './modules/header/header.component';
-import { DashboardComponent } from './modules/dashboard/dashboard.component';
+import { Component } from '@angular/core'
+import { RouterOutlet } from '@angular/router'
+import { HeaderComponent } from './modules/header/header.component'
+import { DashboardComponent } from './modules/dashboard/dashboard.component'
 
 @Component({
   selector: 'app-root',
@@ -11,5 +11,5 @@ import { DashboardComponent } from './modules/dashboard/dashboard.component';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'coolgames';
+  title = 'coolgames'
 }
