@@ -43,13 +43,38 @@ export class HeaderComponent implements OnInit{
     this.newGame.title = this.tempTitle
     this.newGame.url = this.tempUrl
     this.newGame.image = this.tempImg
-    this.gameService.createGame(this.newGame).subscribe(() => {
-      this.gameService.emitGameUpdate()
-    }) 
-    this.newGame = { id: 0, title: '', url: '', image: ''}
-    this.tempTitle = ''
-    this.tempUrl = ''
-    this.tempImg = ''
+    console.log(this.newGame.title)
+    console.log(this.newGame.url)
+    console.log(this.newGame.image)
+
+    this.isValidImage(this.newGame.image).then((isValid) => {
+      this.isValidImage(this.newGame.url).then((gameIsImg) => {
+        if (isValid && !gameIsImg) {
+          this.gameService.createGame(this.newGame).subscribe(() => this.gameService.emitGameUpdate())
+          this.resetForm()
+        } else {
+          this.resetForm()
+          console.error('Invalid image URL.')
+          // Optionally, show a user-friendly message indicating the image URL is invalid.
+        }
+      })
+    })
+  }
+
+  resetForm() {
+    this.newGame = { id: 0, title: '', url: '', image: '' };
+    this.tempTitle = '';
+    this.tempUrl = '';
+    this.tempImg = '';
+  }
+
+  isValidImage(url: string | undefined): Promise<boolean> {
+    return new Promise((resolve) => {
+      const img: any = new Image()
+      img.onload = () => resolve(true)
+      img.onerror = () => resolve(false)
+      img.src = url
+    })
   }
 
   updateGame(): void {
@@ -57,24 +82,14 @@ export class HeaderComponent implements OnInit{
       this.selectedGame.title = this.gameLabel
       this.selectedGame.url = this.gameUrl
       this.selectedGame.image = this.gameImg
-      this.gameService.updateGame(this.selectedGame).subscribe(() => {
-        console.log('Game updated successfully!')
-        this.gameService.emitGameUpdate()
-      }, error => {
-        console.error('Error updating game:', error)
-      })
+      this.gameService.updateGame(this.selectedGame).subscribe(() => this.gameService.emitGameUpdate())
     }
   }
 
   deleteGame(): void {
     if (this.selectedGame) {
       this.gameService.selectedGame = undefined
-      this.gameService.deleteGame(this.selectedGame.id).subscribe(() => {
-        console.log('Game deleted successfully!')
-        this.gameService.emitGameUpdate()
-      }, error => {
-        console.error('Error delete game:', error)
-      })
+      this.gameService.deleteGame(this.selectedGame.id).subscribe(() => this.gameService.emitGameUpdate())
     }
   }
 

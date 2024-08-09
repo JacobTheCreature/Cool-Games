@@ -16,6 +16,8 @@ export class DashboardComponent {
   filteredList: Game[] = []
   searchInput: string = ''
 
+  get defaultImage() {return this.gameService.defaultImage}
+
   constructor (
     private gameService: GameService,
     private router: Router

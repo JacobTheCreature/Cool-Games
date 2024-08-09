@@ -18,6 +18,8 @@ export class GameService {
   gameChange$ = this.gameChange.asObservable()
   gameUpdate$ = this.gameUpdateSubject.asObservable()
 
+  public defaultImage: String = 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png'
+
   emitGameUpdate(): void {
     this.gameUpdateSubject.next()
   }
