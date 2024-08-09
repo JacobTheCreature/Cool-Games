@@ -34,18 +34,68 @@ export class HeaderComponent implements OnInit{
   public tempImg: string = ''
   public searchInput: string = ''
 
+  public missingUrl: boolean = false
+  public missingImg: boolean = false
+  public missingTitle: boolean = false
+
+  public invalidUrl: boolean = false
+  public invalidImg: boolean = false
+
   onSearchChange(event: Event) {
     const inputElement = event.target as HTMLInputElement
     this.gameService.updateSearchQuery(inputElement.value)
+  }
+
+  submitForm() {
+    if (this.tempTitle == '') {
+      this.missingTitle = true
+    }
+    if (this.tempUrl == '') {
+      this.missingUrl = true
+    }
+    if (this.tempImg == '') {
+      this.missingImg = true
+    }
+
+    this.isValidImage(this.tempImg).then((isValidImg) => {
+      this.isValidImage(this.tempUrl).then((gameIsImg) => {
+        if (isValidImg && !gameIsImg) {
+          this.createGame()
+        } else if (!isValidImg && gameIsImg) {
+          this.invalidImg = true
+          this.invalidUrl = true
+        } else if (!isValidImg) {
+          this.invalidImg = true
+        } else if (gameIsImg) {
+          this.invalidImg = true
+        }
+      })
+    })
+  }
+
+  clearAlert(field: string) {
+    switch (field) {
+      case 'title':
+        console.log("fix title")
+        this.missingTitle = false
+        break
+      case 'img':
+        console.log("fix img")
+        this.missingImg = false
+        this.invalidImg = false
+        break
+      case 'url':
+        console.log("fix url")
+        this.missingUrl = false
+        this.invalidUrl = false
+        break
+    }  
   }
 
   createGame(): void {
     this.newGame.title = this.tempTitle
     this.newGame.url = this.tempUrl
     this.newGame.image = this.tempImg
-    console.log(this.newGame.title)
-    console.log(this.newGame.url)
-    console.log(this.newGame.image)
 
     this.isValidImage(this.newGame.image).then((isValid) => {
       this.isValidImage(this.newGame.url).then((gameIsImg) => {
@@ -62,10 +112,13 @@ export class HeaderComponent implements OnInit{
   }
 
   resetForm() {
-    this.newGame = { id: 0, title: '', url: '', image: '' };
-    this.tempTitle = '';
-    this.tempUrl = '';
-    this.tempImg = '';
+    this.newGame = { id: 0, title: '', url: '', image: '' }
+    this.tempTitle = ''
+    this.tempUrl = ''
+    this.tempImg = ''
+    this.missingImg = false
+    this.missingTitle = false
+    this.missingUrl = false
   }
 
   isValidImage(url: string | undefined): Promise<boolean> {
