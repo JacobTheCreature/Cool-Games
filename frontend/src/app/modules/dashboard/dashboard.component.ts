@@ -3,11 +3,12 @@ import { GameService } from '../../services/game.service'
 import { Game } from '../../game'
 import { CommonModule, NgFor } from '@angular/common'
 import { Router } from '@angular/router'
+import { CarouselModule } from 'primeng/carousel'
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, NgFor],
+  imports: [CommonModule, NgFor, CarouselModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
@@ -15,6 +16,8 @@ export class DashboardComponent {
   games: Game[] = []
   filteredList: Game[] = []
   searchInput: string = ''
+
+  responsiveOptions: any[] | undefined
 
   get defaultImage() {return this.gameService.defaultImage}
 
@@ -66,5 +69,24 @@ export class DashboardComponent {
     this.gameService.currentSearchQuery.subscribe(query => {
       this.filter(query)
     })
+
+    this.responsiveOptions = [
+      {
+          breakpoint: '1199px',
+          numVisible: 1,
+          numScroll: 1
+      },
+      {
+          breakpoint: '991px',
+          numVisible: 2,
+          numScroll: 1
+      },
+      {
+          breakpoint: '767px',
+          numVisible: 1,
+          numScroll: 1
+      }
+  ]
+  
   }
 }

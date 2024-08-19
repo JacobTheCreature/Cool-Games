@@ -1,9 +1,35 @@
+<div class="featured-games">
+  <h1>Featured Games</h1>
+</div>
+<div class="carousel">
+  <p-carousel 
+  [value]="games" 
+  [numVisible]="3" 
+  [numScroll]="3" 
+  [circular]="true" 
+  [responsiveOptions]="responsiveOptions" 
+  autoplayInterval="3000">
+      <ng-template let-game pTemplate="item">
+              <div class="border-1 surface-border border-round m-2 p-3">
+                <div class="featured-card" (click)="onSelect(game)">
+                  <a routerLink='/game-frame' routerLinkActive='active'>
+                    <img [src]="game.image" alt="Undefined" />
+                    <h3>{{ game.title }}</h3>
+                    <p>Shooter | 3D | Action</p>
+                  </a>
+                </div>
+              </div>
+      </ng-template>
+</p-carousel>
+</div>
+
 <div class="dashboard column">
     <div class="game-cards">
       <div class="game-card" *ngFor="let game of filteredList" (click)="onSelect(game)">
         <a routerLink='/game-frame' routerLinkActive='active'>
           <img [src]="game.image" alt="Undefined" />
           <h3>{{ game.title }}</h3>
+          <p>Shooter | 3D | Action</p>
         </a>
       </div>
     </div>

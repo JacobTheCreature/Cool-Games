@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { DropdownComponent } from '../dropdown/dropdown.component';
 import { Game } from '../../game';
 import { GameService } from '../../services/game.service'
@@ -7,6 +7,7 @@ import { NgIf } from '@angular/common'
 import { RouterModule } from '@angular/router'
 import { DashboardComponent } from '../../modules/dashboard/dashboard.component'
 import { Subject } from 'rxjs'
+import { Modal } from 'bootstrap'
 
 @Component({
   selector: 'app-header',
@@ -17,7 +18,7 @@ import { Subject } from 'rxjs'
 })
 export class HeaderComponent implements OnInit{
 
-  @ViewChild(DropdownComponent) dropdownComponent!: DropdownComponent;
+  @ViewChild(DropdownComponent) dropdownComponent!: DropdownComponent
 
   constructor (
     public gameService: GameService
@@ -70,6 +71,16 @@ export class HeaderComponent implements OnInit{
       ]).then(([isValidImg, gameIsImg]) => {
         if (isValidImg && !gameIsImg) {
           this.createGame()
+          const modalElement = document.getElementById("addModal")
+          if (modalElement) {
+            const modalInstance = Modal.getInstance(modalElement)
+            modalInstance!.hide()
+
+            const backdrop = document.querySelector('.modal-backdrop');
+            if (backdrop) {
+              backdrop.remove()
+            }
+          }
         } else if (!isValidImg && gameIsImg) {
           this.invalidImg = true
           this.invalidUrl = true
