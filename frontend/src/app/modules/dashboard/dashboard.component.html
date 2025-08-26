@@ -25,7 +25,7 @@
 
 <div class="dashboard column">
     <div class="game-cards">
-      <div class="game-card" *ngFor="let game of filteredList" (click)="onSelect(game)">
+      <div class="game-card" *ngFor="let game of filteredList" (click)="onSelect(game)" [ngClass]="{'large-card': isTitleLong(game.title)}">
         <a routerLink='/game-frame' routerLinkActive='active'>
           <img [src]="game.image" alt="Undefined" />
           <h3>{{ game.title }}</h3>

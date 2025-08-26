@@ -48,27 +48,18 @@ export class HeaderComponent implements OnInit{
   }
 
   submitForm() {
-    // Check if the fields are empty
-    if (this.tempTitle === '') {
+    if (this.tempTitle == '') {
       this.missingTitle = true
     }
-    if (this.tempUrl === '') {
+    if (this.tempUrl == '') {
       this.missingUrl = true
     }
-    if (this.tempImg === '') {
+    if (this.tempImg == '') {
       this.missingImg = true
     }
 
-    if (this.missingTitle || this.missingUrl || this.missingImg ) {
-      return
-    }
-  
-    // If the fields are not empty, run the validations
-    if (this.tempImg !== '' || this.tempUrl !== '') {
-      Promise.all([
-        this.tempImg !== '' ? this.isValidImage(this.tempImg) : Promise.resolve(true),
-        this.tempUrl !== '' ? this.isValidImage(this.tempUrl) : Promise.resolve(false),
-      ]).then(([isValidImg, gameIsImg]) => {
+    this.isValidImage(this.tempImg).then((isValidImg) => {
+      this.isValidImage(this.tempUrl).then((gameIsImg) => {
         if (isValidImg && !gameIsImg) {
           this.createGame()
           const modalElement = document.getElementById("addModal")
@@ -87,22 +78,25 @@ export class HeaderComponent implements OnInit{
         } else if (!isValidImg) {
           this.invalidImg = true
         } else if (gameIsImg) {
-          this.invalidUrl = true
+          this.invalidImg = true
         }
-      });
-    }
+      })
+    })
   }
 
   clearAlert(field: string) {
     switch (field) {
       case 'title':
+        console.log("fix title")
         this.missingTitle = false
         break
       case 'img':
+        console.log("fix img")
         this.missingImg = false
         this.invalidImg = false
         break
       case 'url':
+        console.log("fix url")
         this.missingUrl = false
         this.invalidUrl = false
         break
@@ -113,7 +107,19 @@ export class HeaderComponent implements OnInit{
     this.newGame.title = this.tempTitle
     this.newGame.url = this.tempUrl
     this.newGame.image = this.tempImg
-    this.gameService.createGame(this.newGame).subscribe(() => this.gameService.emitGameUpdate())
+
+    this.isValidImage(this.newGame.image).then((isValid) => {
+      this.isValidImage(this.newGame.url).then((gameIsImg) => {
+        if (isValid && !gameIsImg) {
+          this.gameService.createGame(this.newGame).subscribe(() => this.gameService.emitGameUpdate())
+          this.resetForm()
+        } else {
+          this.resetForm()
+          console.error('Invalid image URL.')
+          // Optionally, show a user-friendly message indicating the image URL is invalid.
+        }
+      })
+    })
   }
 
   resetForm() {
@@ -124,8 +130,6 @@ export class HeaderComponent implements OnInit{
     this.missingImg = false
     this.missingTitle = false
     this.missingUrl = false
-    this.invalidImg = false
-    this.invalidUrl = false
   }
 
   isValidImage(url: string | undefined): Promise<boolean> {
