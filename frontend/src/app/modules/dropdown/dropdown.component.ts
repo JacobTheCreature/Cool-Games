@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { GAMES } from '../../mock-games'
-import { NgFor, NgIf } from '@angular/common'
+import { NgFor } from '@angular/common'
 import { Game } from '../../game'
 import { GameService } from '../../services/game.service'
 import { FormsModule } from '@angular/forms'
@@ -10,7 +10,6 @@ import { Router, RouterModule } from '@angular/router'
   selector: 'app-dropdown',
   standalone: true,
   imports: [NgFor,
-    NgIf,
     FormsModule,
     RouterModule],
   templateUrl: './dropdown.component.html',
@@ -27,6 +26,12 @@ export class DropdownComponent {
   searchInput: string = ''
   games: Game[] = []
   filteredList: Game[] | undefined
+  isDropdownOpen: boolean = false
+
+  toggleDropdown(event: Event): void {
+    event.preventDefault();
+    this.isDropdownOpen = !this.isDropdownOpen;
+  }
 
   getGames(): void {
     this.gameService.getGames()
@@ -34,6 +39,7 @@ export class DropdownComponent {
   }
 
   onSelect(game: Game) {
+    this.isDropdownOpen = false
     this.gameService.getGame(game.id).subscribe(selectedGame => {
       this.gameService.setSelectedGame(selectedGame)
       this.gameSelected.emit(selectedGame)

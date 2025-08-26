@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "database": "psql -U postgres -f sql_scripts/create_database.sql",
     "tables": "psql -U postgres -d gamedb -f sql_scripts/create_tables.sql",
     "functions": "psql -U postgres -d gamedb -f sql_scripts/create_functions.sql",
     "data": "psql -U postgres -d gamedb -f sql_scripts/create_mock_data.sql"

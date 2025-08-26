@@ -6,8 +6,8 @@
       <div class="button-group">
         <input class="search-bar" *ngIf="!gameService.selectedGame" placeholder="Search games..." [(ngModel)]="searchInput" (input)="onSearchChange($event)"/>
         <button type="button" class="nav-button" id="add" data-bs-toggle="modal" data-bs-target="#addModal">Add Game</button>
-        <button type="button" class="nav-button" id="edit" data-bs-toggle="modal" [disabled]="!gameService.selectedGame" data-bs-target="#editModal">Edit Game</button>
-        <button type="button" class="nav-button" id="delete" data-bs-toggle="modal" [disabled]="!gameService.selectedGame" data-bs-target="#deleteModal">Delete Game</button>
+        <button type="button" class="nav-button" id="edit" data-bs-toggle="modal" [disabled]="!gameService.selectedGame" [hidden]="!gameService.selectedGame" data-bs-target="#editModal">Edit Game</button>
+        <button type="button" class="nav-button" id="delete" data-bs-toggle="modal" [disabled]="!gameService.selectedGame" [hidden]="!gameService.selectedGame" data-bs-target="#deleteModal">Delete Game</button>
       </div>
       <app-dropdown (gameSelected)="onGameSelected()"></app-dropdown>
     </div>
