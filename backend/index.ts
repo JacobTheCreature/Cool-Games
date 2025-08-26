@@ -124,7 +124,7 @@ const pool = new Pool.Pool({
   user: "postgres",
   host: "localhost",
   database: "gamedb",
-  password: "abc123",
+  password: "jacobkartorium",
   port: 5432
 })
 
